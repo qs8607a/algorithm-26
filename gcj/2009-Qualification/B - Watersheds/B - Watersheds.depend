@@ -1,8 +1,11 @@
 # depslib dependency file v1.0
-1334720700 source:/home/aj/github/algorithm/gcj/2009-Qualification/B - Watersheds/main.cpp
+1334731859 source:/home/aj/github/algorithm/gcj/2009-Qualification/B - Watersheds/main.cpp
 	<algorithm>
 	<cctype>
 	<cmath>
+	<cstdio>
+	<cstdlib>
+	<cstring>
 	<functional>
 	<iostream>
 	<list>

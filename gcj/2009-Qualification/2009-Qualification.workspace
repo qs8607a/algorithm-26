@@ -2,7 +2,7 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="A - Alien Language/A - Alien Language.cbp" />
-		<Project filename="B - Watersheds/B - Watersheds.cbp" />
-		<Project filename="C - Welcome to Code Jam/C - Welcome to Code Jam.cbp" active="1" />
+		<Project filename="B - Watersheds/B - Watersheds.cbp" active="1" />
+		<Project filename="C - Welcome to Code Jam/C - Welcome to Code Jam.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
