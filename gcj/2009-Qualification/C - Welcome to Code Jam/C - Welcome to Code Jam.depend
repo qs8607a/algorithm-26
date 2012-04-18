@@ -1,8 +1,10 @@
 # depslib dependency file v1.0
-1334719036 source:/home/aj/github/algorithm/gcj/2009-Qualification/C - Welcome to Code Jam/main.cpp
+1334723825 source:/home/aj/github/algorithm/gcj/2009-Qualification/C - Welcome to Code Jam/main.cpp
 	<algorithm>
 	<cctype>
 	<cmath>
+	<cstdio>
+	<cstring>
 	<functional>
 	<iostream>
 	<list>
