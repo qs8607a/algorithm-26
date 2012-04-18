@@ -46,12 +46,22 @@ char* itoa(int value, char* result, int base) {
 }
 
 char nstr[1048576];
+int happyCache[100000][11];
 set<int> seen;
 bool isHappy(int n, int base)
 {
+	if(n < 100000 && base < 11)
+	{
+		if(happyCache[n][base] == 1)
+			return true;
+		else if(happyCache[n][base] == 0)
+			return false;
+	}
+
 	if(seen.find(n) != seen.end())
 	{
-		seen.clear();
+		if(n < 100000)
+			happyCache[n][base] = 0;
 		return false;
 	}
 
@@ -64,7 +74,8 @@ bool isHappy(int n, int base)
 
 	if(nn==1)
 	{
-		seen.clear();
+		if(n < 100000)
+			happyCache[n][base] = 1;
 		return true;
 	}
 
@@ -73,6 +84,8 @@ bool isHappy(int n, int base)
 
 int main(void)
 {
+	memset(happyCache, -1, sizeof(happyCache));
+
 	string line;
 	uint numTests;
 	stringstream ss;
@@ -102,18 +115,22 @@ int main(void)
 		{
 			if(isHappy(res, testBase))
 			{
+				seen.clear();
 				bool happy = true;
 				for(int i=0;i<bases.size()-1;i++)
 				{
 					if(isHappy(res, bases[i]) == false)
 					{
+						seen.clear();
 						happy = false;
 						break;
 					}
+					seen.clear();
 				}
 				if(happy)
 					break;
 			}
+			seen.clear();
 
 			res++;
 		}
