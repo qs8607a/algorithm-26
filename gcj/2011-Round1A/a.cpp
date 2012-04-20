@@ -25,26 +25,6 @@ typedef unsigned long long ull;
 
 int lcw[101];
 
-int lcm(int a, int b)
-{
-	int s, l;
-	if(a > b) { l=a; s=b; }
-	else { l=b; s=a; }
-
-	if(l%s==0)
-		return l;
-
-	int r = l%s;
-	while(r != 0)
-	{
-		l=s;
-		s=r;
-		r=l%s;
-	}
-
-	return (a*b)/s;
-}
-
 int main(void)
 {
 	lcw[0]=0;
@@ -82,15 +62,9 @@ int main(void)
 		ss >> N >> PD >> PG;
 		ss.clear();
 
-		bool broken;
-
-		//int tg = lcm( lcw[PD], lcw[PG] );
-		//if( (float)tg * ((float)PG*.01f) > ((float)N+1e-5) )
-
+		bool broken = false;
 		if(lcw[PD] > N || (PG==100 && PD!=100) || (PG==0 && PD!=0))
 			broken = true;
-		else
-			broken = false;
 
 		cout << "Case #" << testCase+1 << ": " << (broken?"Broken":"Possible") << endl;
 	}
