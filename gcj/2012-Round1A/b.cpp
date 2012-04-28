@@ -31,33 +31,50 @@ struct Level
 };
 
 Level levels[1000];
+int numLevels;
 int numStars;
 int res;
 
-void GoBack(int curLevel, bool twoOnly, int targetStars)
+void Go()
 {
-	//Look for two stars
-	for(int i=0;i<curLevel;i++)
+	int oldNumStars = numStars;
+	int lowestTwoStarIndex = -1;
+	int lowestTwoStars = 1e9;
+
+	//Get two stars
+	for(int i=0;i<numLevels;i++)
 	{
 		if(levels[i].GotTwo == false && levels[i].TwoStars <= numStars)
 		{
 			levels[i].GotTwo = true;
-			numStars++;
+			levels[i].GotOne = true;
+			numStars+=2;
+			res++;
+		}
 
-			if(numStars >= targetStars)
-				return;
+		if(levels[i].GotTwo == false && levels[i].TwoStars < lowestTwoStars)
+		{
+			lowestTwoStarIndex = i;
+			lowestTwoStars = levels[i].TwoStars;
 		}
 	}
 
-	//Look for one star
-	for(int i=0;i<curLevel;i++)
+	if(numStars != oldNumStars)
+		return;
+
+	if(lowestTwoStarIndex == -1)
+		return;
+
+	//Get one star
+	for(int i=0;i<numLevels;i++)
 	{
 		if(levels[i].GotOne == false && levels[i].OneStar <= numStars)
 		{
 			levels[i].GotOne = true;
 			numStars++;
+			res++;
 
-			if(numStars >= targetStars)
+			if(numStars >= lowestTwoStars)
 				return;
 		}
 	}
@@ -76,7 +93,7 @@ int main(void)
 
 	for(uint testCase=0; testCase < numTests; testCase++)
 	{
-		int numLevels = 0;
+		numLevels = 0;
 		getline(cin, line);
 		ss << line;
 		ss >> numLevels;
@@ -96,82 +113,29 @@ int main(void)
 
 		numStars = 0;
 		res = 0;
-		bool tooBad = false;
 
+		int oldNumStars = 0;
+		do
+		{
+			oldNumStars = numStars;
+			Go();
+		}while(oldNumStars != numStars);
+
+		bool tooBad = false;
 		for(int i=0;i<numLevels;i++)
 		{
-			int oldNumStars = numStars;
-
-			//Can earn two stars now?
-			if(levels[i].TwoStars <= numStars)
-			{
-				levels[i].GotTwo = true;
-				numStars++;
-				continue;
-			}
-
-			//Can't get two here yet.  Go back and earn more.
-			else
-			{
-				GoBack(i, true, levels[i].TwoStars);
-				if(numStars != oldNumStars)
-				  continue;
-			}
-
-			//Can earn two stars now? (made redundant by the continue after GoBack above).
-			if(levels[i].TwoStars <= numStars)
-			{
-				levels[i].GotTwo = true;
-				numStars++;
-				continue;
-			}
-
-			//Still can't get two here.  Try to pass the level at least.
-			else
-			{
-				if(levels[i].OneStar <= numStars)
-				{
-					levels[i].GotOne = true;
-					numStars++;
-					continue;
-				}
-
-				//Not enough for the one-star pass.  Go get more.
-				else
-				{
-					GoBack(i, false, levels[i].OneStar);
-					if(numStars != oldNumStars)
-					  continue;
-				}
-			}
-
-			if(numStars == oldNumStars)
+			if(levels[i].GotTwo == false)
 			{
 				tooBad = true;
 				break;
 			}
 		}
 
-		//Go back and two-star everything (unnecessary?)
-		for(int i=0;i<numLevels;i++)
-		{
-		  if(levels[i].GotTwo == false)
-		  {
-			 if(levels[i].TwoStars <= numStars)
-			 {
-				levels[i].GotTwo = true;
-				numStars++;
-				i = -1;
-				continue;
-			 }
-		  }
-		}
-
 		printf("Case #%d: ", testCase+1);
 		if(tooBad == true)
 			printf("Too Bad\n");
 		else
-			printf("%d\n", numStars);
+			printf("%d\n", res);
 	}
 
 	return 0;
