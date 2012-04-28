@@ -47,8 +47,14 @@ void Go()
 		if(levels[i].GotTwo == false && levels[i].TwoStars <= numStars)
 		{
 			levels[i].GotTwo = true;
-			levels[i].GotOne = true;
-			numStars+=2;
+			numStars++;
+
+			if(levels[i].GotOne == false)
+			{
+				levels[i].GotOne = true;
+				numStars++;
+			}
+
 			res++;
 		}
 
@@ -66,17 +72,27 @@ void Go()
 		return;
 
 	//Get one star
+	
+	int bestOneStar = -1;
+	int bestOneStarIndex = -1;
+
 	for(int i=0;i<numLevels;i++)
 	{
 		if(levels[i].GotOne == false && levels[i].OneStar <= numStars)
 		{
-			levels[i].GotOne = true;
-			numStars++;
-			res++;
-
-			if(numStars >= lowestTwoStars)
-				return;
+			if(levels[i].TwoStars > bestOneStar)
+			{
+				bestOneStar = levels[i].TwoStars;
+				bestOneStarIndex = i;
+			}
 		}
+	}
+
+	if(bestOneStarIndex != -1)
+	{
+		levels[bestOneStarIndex].GotOne = true;
+		numStars++;
+		res++;
 	}
 }
 
