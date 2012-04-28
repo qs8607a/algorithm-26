@@ -30,10 +30,11 @@ int main(void)
 	getline(cin, line);
 	ss << line;
 	ss >> numTests;
+	ss.clear();
 
 	for(uint testCase=0; testCase < numTests; testCase++)
 	{
-		cout << "Case #" << testCase+1 << ": " << endl;
+		printf("Case #%d: \n", testCase+1);
 	}
 
 	return 0;
